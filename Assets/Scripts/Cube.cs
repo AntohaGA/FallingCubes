@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
+    private const float MinDelay = 2;
+    private const float MaxDelay = 6;
+
     public bool IsTouched;
 
     public event Action<Cube> Touched;
@@ -18,18 +21,17 @@ public class Cube : MonoBehaviour
         return GetComponent<Renderer>();
     }
 
-    public Rigidbody GetRigidbody()
+    private Rigidbody GetRigidbody()
     {
         return GetComponent<Rigidbody>();
     }
 
-    public void Init(Vector3 spawnPositoion, Color startColor)
+    public void Init(Vector3 spawnPositoion)
     {
         _initCubesCoroutine = DelayToDisable();
-        waitForSeconds = new WaitForSeconds(1);
+        waitForSeconds = new WaitForSeconds(UnityEngine.Random.Range(MinDelay, MaxDelay));
 
-        GetRenderer().material.SetColor("_Color", startColor);
-        transform.position = spawnPositoion;
+        transform.SetPositionAndRotation(spawnPositoion, Quaternion.identity);
         GetRigidbody().velocity = Vector3.zero;
         GetRigidbody().angularVelocity = Vector3.zero;
         IsTouched = false;

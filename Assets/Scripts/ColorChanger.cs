@@ -3,16 +3,21 @@ using UnityEngine;
 public class ColorChanger : MonoBehaviour
 {
     const string ColorProperty = "_Color";
-    Color NewColor;
 
-    public void SetDefaultColor(Cube cube, Color color)
-    {
-        cube.GetRenderer().material.SetColor(ColorProperty, color);
-    }
+    [SerializeField] private Color _defaultColor = Color.red;
 
-    public void ChangeColor(Cube cube)
+    private Color NewColor;
+
+    public void SetRandomColor(Cube cube)
     {
         NewColor = Random.ColorHSV();
+        cube.GetRenderer().material.SetColor(ColorProperty, NewColor);
+    }
+
+
+    public void SetDefaultColor(Cube cube)
+    {
+        NewColor = _defaultColor;
         cube.GetRenderer().material.SetColor(ColorProperty, NewColor);
     }
 }

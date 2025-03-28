@@ -6,8 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(PoolCubes))]
 public class SpawnerCubes : MonoBehaviour
 {
-    [SerializeField] private float Delay = 5f;
-    [SerializeField] Color defaultColor = Color.red;
+    [SerializeField] private float Delay;
+
+    private bool isContinue = true;
 
     private PoolCubes _poolCubes;
     private WaitForSeconds _waitForSeconds;
@@ -36,18 +37,23 @@ public class SpawnerCubes : MonoBehaviour
         StopCoroutine(_initCubesCoroutine);
     }
 
+    public void Subscribe(Cube cube)
+    {
+        cube.Touched += _colorChanger.SetRandomColor;
+        cube.Destroyed += _poolCubes.ReturnCoob;
+    }
+
     private IEnumerator MakeCubesByDelay()
     {
-        while (true)
+        Cube cube;
+
+        while (isContinue)
         {
             yield return _waitForSeconds;
 
-            Cube cube = _poolCubes.GetCube();
-
-            cube.Init(_spawnRandomizer.GetSpawn(), defaultColor);
-
-            cube.Touched += _colorChanger.ChangeColor;
-            cube.Destroyed += _poolCubes.ReturnCoob;
+            cube = _poolCubes.GetCube();
+            _colorChanger.SetDefaultColor(cube);
+            cube.Init(_spawnRandomizer.GetSpawn());
         }
     }
 }

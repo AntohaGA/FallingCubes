@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
+[RequireComponent(typeof(SpawnerCubes))]
 public class PoolCubes : MonoBehaviour
 {
     [SerializeField] private Cube _prefab;
@@ -8,11 +9,15 @@ public class PoolCubes : MonoBehaviour
     [SerializeField] private int _poolCapacity;
     [SerializeField] private int _poolMaxSize;
 
+    private SpawnerCubes _spawnerCubes;
+
     private ObjectPool<Cube> _poolCubes;
 
     private void Awake()
     {
-        _poolCubes = new ObjectPool<Cube>(CreateCube, TakeFromPool, ReturnToPool, DestroyCube, true, _poolCapacity, _poolMaxSize);
+        _spawnerCubes = GetComponent<SpawnerCubes>();
+        _poolCubes = new ObjectPool<Cube>(CreateCube, TakeFromPool, ReturnToPool,
+                                          DestroyCube, true, _poolCapacity, _poolMaxSize);
     }
 
     public Cube GetCube()
@@ -27,7 +32,11 @@ public class PoolCubes : MonoBehaviour
 
     private Cube CreateCube()
     {
-        return Instantiate(_prefab);
+        Cube cube = Instantiate(_prefab);
+
+        _spawnerCubes.Subscribe(cube);
+
+        return cube;
     }
 
     private void TakeFromPool(Cube cube)
