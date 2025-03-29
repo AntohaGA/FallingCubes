@@ -6,9 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(PoolCubes))]
 public class SpawnerCubes : MonoBehaviour
 {
-    [SerializeField] private float Delay;
+    [SerializeField] private float _delay;
 
-    private bool isContinue = true;
+    private bool _isContinue = true;
 
     private PoolCubes _poolCubes;
     private WaitForSeconds _waitForSeconds;
@@ -23,7 +23,7 @@ public class SpawnerCubes : MonoBehaviour
         _spawnRandomizer = GetComponent<RandomizerPoint>();
         _colorChanger = GetComponent<ColorChanger>();
 
-        _waitForSeconds = new WaitForSeconds(Delay);
+        _waitForSeconds = new WaitForSeconds(_delay);
         _initCubesCoroutine = MakeCubesByDelay();
     }
 
@@ -32,28 +32,26 @@ public class SpawnerCubes : MonoBehaviour
         StartCoroutine(_initCubesCoroutine);
     }
 
-    private void OnDestroy()
+    private void UnSubscribe(Cube cube)
     {
-        StopCoroutine(_initCubesCoroutine);
-    }
-
-    public void Subscribe(Cube cube)
-    {
-        cube.Touched += _colorChanger.SetRandomColor;
-        cube.Destroyed += _poolCubes.ReturnCoob;
+        cube.Touched -= _colorChanger.SetRandomColor;
+        cube.Destroyed -= UnSubscribe;
+        _poolCubes.ReturnCoob(cube);
     }
 
     private IEnumerator MakeCubesByDelay()
     {
         Cube cube;
 
-        while (isContinue)
+        while (_isContinue)
         {
             yield return _waitForSeconds;
 
             cube = _poolCubes.GetCube();
-            _colorChanger.SetDefaultColor(cube);
+            cube.Touched += _colorChanger.SetRandomColor;
+            cube.Destroyed += UnSubscribe;
             cube.Init(_spawnRandomizer.GetSpawn());
+            _colorChanger.SetDefaultColor(cube);
         }
     }
 }

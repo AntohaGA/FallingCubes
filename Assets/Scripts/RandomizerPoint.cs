@@ -10,14 +10,9 @@ public class RandomizerPoint : MonoBehaviour
 
     public Vector3 GetSpawn()
     {
-        float XCoordinateSpawn;
-        float YCoordinateSpawn;
-        float ZCoordinateSpawn;
-
-        XCoordinateSpawn = _startRandomPoint.position.x + Random.Range( - _maxXDeviation, _maxXDeviation);
-        YCoordinateSpawn = _startRandomPoint.position.y + Random.Range( - _maxYDeviation, _maxYDeviation);
-        ZCoordinateSpawn = _startRandomPoint.position.z + Random.Range( - _maxZDeviation, _maxZDeviation);
-
-        return new Vector3(XCoordinateSpawn, YCoordinateSpawn, ZCoordinateSpawn);
+        return new Vector3
+            (_startRandomPoint.position.x + Random.Range(-_maxXDeviation, _maxXDeviation),
+             _startRandomPoint.position.y + Random.Range(-_maxYDeviation, _maxYDeviation),
+             _startRandomPoint.position.z + Random.Range(-_maxZDeviation, _maxZDeviation));
     }
 }

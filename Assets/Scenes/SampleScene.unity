@@ -310,13 +310,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.26395866, y: -0.68820345, z: 0.2999769, w: 0.6055706}
-  m_LocalPosition: {x: 11.7, y: 14.97, z: -1.7000004}
+  m_LocalRotation: {x: 0.28135368, y: -0.65305114, z: 0.37026137, w: 0.5977214}
+  m_LocalPosition: {x: 11.7, y: 17.11, z: -2.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 47.103, y: -97.309, z: 0}
+  m_LocalEulerAnglesHint: {x: 55.079, y: -91.128, z: 7.543}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf6d89648cd6684aa6fde8508383dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _defaultColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &963194232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,8 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a46e06c16189eb4a8bb77a3ae795901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Delay: 0.5
-  defaultColor: {r: 1, g: 0, b: 0, a: 1}
+  _delay: 2
 --- !u!1001 &1267681435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -453,7 +453,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6105704145463560338, guid: 69984821c2815bd4e99b4040a46d0dca, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.48963043
+      value: 0.93274593
       objectReference: {fileID: 0}
     - target: {fileID: 6105704145463560338, guid: 69984821c2815bd4e99b4040a46d0dca, type: 3}
       propertyPath: m_LocalScale.z
