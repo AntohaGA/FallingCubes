@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-public class SpawnerInformer : MonoBehaviour
+public class SpawnerInformer<T> : MonoBehaviour where T : Figure
 {
-    [SerializeField] private Spawner _spawner;
+    [SerializeField] private Spawner<T> _spawner;
 
     [SerializeField] private TextMeshProUGUI _textAllSpawn;
     [SerializeField] private TextMeshProUGUI _textActiveOnScene;

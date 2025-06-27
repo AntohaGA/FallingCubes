@@ -2,19 +2,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpawnerCubes))]
 [RequireComponent(typeof(Exploder))]
-public class SpawnerBombs : Spawner
+public class SpawnerBombs : Spawner<Bomb>
 {
-    [SerializeField] Bomb _prefub;
-
     private SpawnerCubes _spawnerCubes;
     private Exploder _exploder;
 
-    private void Awake()
+    protected override void Awake()
     {
-        PoolFigures = gameObject.AddComponent<PoolFigures>();
-        PoolFigures.Init(PoolCapacity, MaxPoolCapacity, _prefub);
+        base.Awake();
         _spawnerCubes = GetComponent<SpawnerCubes>();
-        ColorChanger = GetComponent<ColorChanger>();
         _exploder = GetComponent<Exploder>();
     }
 
@@ -39,22 +35,15 @@ public class SpawnerBombs : Spawner
         MakeFigure(PoolFigures.GetInstance(), cube.transform.position);
     }
 
-    protected override void MakeFigure(Figure figure, Vector3 positionFigure)
+    protected override void MakeFigure(Figure figure, Vector3 position)
     {
-        figure.Init(positionFigure);
-        figure.Destroyed += DestroyFigure;
-        OnChangedSpawnedFigures(++SpawnFigures);
-        OnChangedActiveFigures(++ActiveFigures);
-        OnChangedCountFiguresInPool(PoolFigures.GetCountObjectsInPool());
-        ColorChanger.SetDefaultColor(figure);
+        base.MakeFigure(figure, position);
         ColorChanger.Fade(figure);
     }
 
     protected override void DestroyFigure(Figure figure)
     {
-        figure.Destroyed -= DestroyFigure;
+        base.DestroyFigure(figure);
         _exploder.Explode(figure);
-        OnChangedActiveFigures(--ActiveFigures);
-        PoolFigures.ReturnInstance(figure);
     }
 }

@@ -2,22 +2,16 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(RandomizerPoint))]
-public class SpawnerCubes : Spawner
+public class SpawnerCubes : Spawner<Cube>
 {
-    [SerializeField] Cube _prefab;
-
-    private RandomizerPoint _spawnRandomizer;
-
     private float _spawnDelay = 0.5f;
-
+    private RandomizerPoint _spawnRandomizer;
     private WaitForSeconds _waitForSeconds;
     private IEnumerator _initCubesCoroutine;
 
-    private void Awake()
+    protected override void Awake()
     {
-        PoolFigures = gameObject.AddComponent<PoolFigures>();
-        PoolFigures.Init(PoolCapacity, MaxPoolCapacity, _prefab);
-        ColorChanger = GetComponent<ColorChanger>();
+        base.Awake();
         _waitForSeconds = new WaitForSeconds(_spawnDelay);
         _spawnRandomizer = GetComponent<RandomizerPoint>();
         _initCubesCoroutine = MakeCubesByDelay();
@@ -41,21 +35,14 @@ public class SpawnerCubes : Spawner
     protected override void MakeFigure(Figure figure, Vector3 positionFigure)
     {
         figure.Touched += ColorChanger.SetRandomColor;
-        figure.Destroyed += DestroyFigure;
-        figure.Init(positionFigure);
+        base.MakeFigure(figure, positionFigure);
         OnCreatedFigure(figure);
-        OnChangedSpawnedFigures(++SpawnFigures);
-        OnChangedActiveFigures(++ActiveFigures);
-        OnChangedCountFiguresInPool(PoolFigures.GetCountObjectsInPool());
-        ColorChanger.SetDefaultColor(figure);
     }
 
     protected override void DestroyFigure(Figure figure)
     {
         figure.Touched -= ColorChanger.SetRandomColor;
-        figure.Destroyed -= DestroyFigure;
+        base.DestroyFigure(figure);
         OnDestroyedFigure(figure.transform.position);
-        OnChangedActiveFigures(--ActiveFigures);
-        PoolFigures.ReturnInstance(figure);
     }
 }

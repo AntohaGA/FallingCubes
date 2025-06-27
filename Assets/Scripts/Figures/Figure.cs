@@ -9,13 +9,12 @@ public class Figure : MonoBehaviour
     [SerializeField] protected float MaxDelay;
 
     protected WaitForSeconds WaitForSeconds;
-    public float ExplodeForse { get; private set; } = 200;
-
     protected bool IsTouched;
 
     public event Action<Figure> Touched;
     public event Action<Figure> Destroyed;
 
+    public float ExplodeForse { get; private set; } = 200;
     public Rigidbody Rigidbody { get; protected set; }
     public Renderer Renderer { get; protected set; }
 
